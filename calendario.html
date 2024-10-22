@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Agendamentos</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+    <header>
+        <h1>Calendário de Agendamentos</h1>
+    </header>
+    <section class="form-section">
+        <form id="appointment-form">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="date">Data:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Hora:</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="description">Descrição:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <button type="submit">Adicionar Agendamento</button>
+        </form>
+    </section>
+    <script src="js/script.js"></script>
+</body>
+</html>
