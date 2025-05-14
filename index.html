@@ -1,100 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agendamento Barbearia</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 20px;
-      color: #333;
-    }
-    .container {
-      max-width: 400px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #1e88e5;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #1e88e5;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-    }
-    button:hover {
-      background-color: #1565c0;
-    }
-    .success {
-      text-align: center;
-      color: green;
-      margin-top: 10px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agendamento de Barbearia</title>
 </head>
 <body>
-  <div class="container">
-    <h2>Agende seu Horário</h2>
-    <form id="agendamentoForm">
-      <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
-      <input type="tel" id="telefone" name="telefone" placeholder="Whatsapp com DDD" required />
-      <select id="servico" name="servico" required>
-        <option value="">Escolha o serviço</option>
-        <option value="Corte">Corte</option>
-        <option value="Barba">Barba</option>
-        <option value="Corte + Barba">Corte + Barba</option>
-        <option value="Sobrancelha">Sobrancelha</option>
-      </select>
-      <input type="date" id="data" name="data" required />
-      <input type="time" id="hora" name="hora" required />
-      <button type="submit">Agendar</button>
-      <div id="mensagem" class="success"></div>
-    </form>
-  </div>
+  <h1>Agende seu Horário</h1>
+  <form id="formAgendamento">
+    <input type="text" name="nome" placeholder="Seu nome" required><br>
+    <input type="tel" name="telefone" placeholder="Telefone" required><br>
+    <input type="date" name="data" required><br>
+    <input type="time" name="hora" required><br>
+    <select name="servico" required>
+      <option value="">Escolha o serviço</option>
+      <option value="Corte">Corte</option>
+      <option value="Barba">Barba</option>
+      <option value="Corte + Barba">Corte + Barba</option>
+    </select><br>
+    <button type="submit">Agendar</button>
+  </form>
+  <p id="mensagem"></p>
 
   <script>
-    const form = document.getElementById("agendamentoForm");
-    form.addEventListener("submit", function (e) {
+    document.getElementById('formAgendamento').addEventListener('submit', function(e) {
       e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
 
-      const dados = {
-        nome: form.nome.value,
-        telefone: form.telefone.value,
-        servico: form.servico.value,
-        data: form.data.value,
-        hora: form.hora.value
-      };
-
-      fetch("https://script.google.com/macros/s/AKfycbziP7R_z5iriesAtEWf0BYgcUFhMIguLGTDkAXD-ttbccLyKzWwA1pqveBRRhWK3PG1/exec", {
-        method: "POST",
-        body: JSON.stringify(dados),
-        headers: {
-          "Content-Type": "application/json"
-        }
+      fetch('https://script.google.com/macros/s/AKfycbziP7R_z5iriesAtEWf0BYgcUFhMIguLGTDkAXD-ttbccLyKzWwA1pqveBRRhWK3PG1/exec', {
+        method: 'POST',
+        body: data
       })
-      .then(res => res.json())
-      .then(response => {
-        document.getElementById("mensagem").textContent = "Agendamento realizado com sucesso!";
+      .then(response => response.text())
+      .then(msg => {
+        document.getElementById('mensagem').textContent = msg;
         form.reset();
       })
-      .catch(error => {
-        document.getElementById("mensagem").textContent = "Erro ao enviar agendamento.";
+      .catch(() => {
+        document.getElementById('mensagem').textContent = "Erro ao enviar agendamento.";
       });
     });
   </script>
